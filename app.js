@@ -13,14 +13,8 @@ program.version('1.0.0');
 program.option('--listen', 'listens to the server.')
     .option('--command', 'Enter the admin repl');
 
-program.addHelpText('after', () => {
-    const options = program.options();
-    const listenprovided = options.listen !== undefined;
-    const replprovided = options.repl !== undefined;
-    if (listenprovided && replprovided) {
-        throw new Error('Error: You cannot use both options at the same time.');
-    }
-});
+program.parse(process.argv);
+const options = program.opts();
 
 const welcome = () => {
     console.log('Bienvenido Admin al REPL de FilePod-Backend. v1.0.0 by R. Elias Ojeda');
@@ -95,6 +89,10 @@ function generateBanner(callback) {
 }
 
 const main = () => {
+    if (options.listen && options.command) {
+        console.log('Dos opciones no pueden ser usadas al mismo tiempo.');
+        process.exit(0);
+    }
     generateBanner((err, data) => {
         if (!err) {
             console.log(data);
@@ -105,9 +103,6 @@ const main = () => {
 
 
 const init = () => {
-
-    program.parse(process.argv);
-    const options = program.opts();
     if (options.listen) {
         console.log('Bienvenido admin al listener de FilePod-backend v1.0.0 by R. Elias Ojeda . ');
         registerTerminal('listener');

@@ -23,7 +23,7 @@ const registerTerminal = (type) => {
         console.log(`Server: ${response}`);
     });
     socket.on('archivo-guardado', (response) => {
-        console.log(`link para descarga: ${url}/download/${response}`);
+        console.log(`link para descarga: ${url}/file/preview/${response}`);
     });
 }
 

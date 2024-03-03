@@ -38,23 +38,23 @@ const repl = () => {
 }
 const registerCommands = () => {
 
-    commandParser.registerCommand('serverfiles.status', (command, value) => {
+    commandParser.registerCommand('.status', (command, value) => {
         fetchFileStatus();
     });
-    commandParser.registerCommand('serverfiles.clean', (command, value) => {
+    commandParser.registerCommand('.clean', (command, value) => {
         fetchCleanFile();
     });
-    commandParser.registerCommand('serverfiles.delete', (command, value) => {
+    commandParser.registerCommand('.delete', (command, value) => {
         deleteFilebyid(value);
     });
-    commandParser.registerCommand('serverfiles.upload', (command, value) => {
+    commandParser.registerCommand('.upload', (command, value) => {
         if (!value) {
             console.log(`${command} necesita definir un path al archivo para subir. ej: serverfiles.upload=ejemplol.txt`);
         } else {
             readfile(value);
         }
     });
-    commandParser.registerCommand('exit', (command, value) => {
+    commandParser.registerCommand('.exit', (command, value) => {
         console.log('bye :3');
         process.exit(0);
     });

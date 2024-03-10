@@ -1,9 +1,12 @@
-const token = process.env.TOKEN;
-const url = process.env.URL;
 const io = require('socket.io-client');
-const socket = io(url);
+let token = null;
+let url = null;
+let socket = null;
 
 const registerTerminal = (type) => {
+    token = process.env.TOKEN;
+    url = process.env.URL;
+    socket = io(url);
     socket.on('disconnect', () => {
         console.log('Se ha perdido la conexion al servidor.');
         process.exit(0);

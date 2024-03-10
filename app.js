@@ -1,9 +1,8 @@
-require('dotenv').config();
-
 const { program } = require('commander');
 const { registerTerminal, fetchFileStatus, subscribeListenerEvents, fetchCleanFile, deleteFilebyid, uploadFile } = require('./Connection.js');
 const readline = require('readline');
 const commandParser = require('./CommandParser.js');
+const dotenv = require('dotenv');
 
 const fs = require('fs');
 const path = require('path');
@@ -11,9 +10,11 @@ const figlet = require('figlet');
 
 program.version('1.0.0');
 program.option('--listen', 'listens to the server.')
-    .option('--command', 'Enter the admin repl');
+    .option('--command', 'Enter the admin repl')
+    .option('--env <env>', 'Enter the environme option (dev/prod), default is prod. ');
 
 program.parse(process.argv);
+
 const options = program.opts();
 
 const welcome = () => {
@@ -93,6 +94,18 @@ const main = () => {
         console.log('Dos opciones no pueden ser usadas al mismo tiempo.');
         process.exit(0);
     }
+    if (options.env) {
+        let env = options.env;
+        if (env === 'prod' | env == 'dev') {
+            loadenvironment(env);
+        } else {
+            console.log("El env pasado es incorrecto. debe ser dev o prod.");
+            process.exit(0);
+        }
+    } else {
+        console.log("No se especifico un env");
+        return;
+    }
     generateBanner((err, data) => {
         if (!err) {
             console.log(data);
@@ -101,7 +114,18 @@ const main = () => {
     });
 }
 
+const loadenvironment = (env) => {
+    const envFilePath = `.env.${env}`;
+    if (fs.existsSync(envFilePath)) {
+        const envConfig = dotenv.parse(fs.readFileSync(envFilePath));
+        for (const key in envConfig) {
+            process.env[key] = envConfig[key];
+        }
+    } else {
+        console.error(`Error: ${envFilePath} No existe. `);
+    }
 
+}
 const init = () => {
     if (options.listen) {
         console.log('Bienvenido admin al listener de FilePod-backend v1.0.0 by R. Elias Ojeda . ');

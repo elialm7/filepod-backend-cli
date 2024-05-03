@@ -1,5 +1,5 @@
 const { program } = require('commander');
-const { registerTerminal, fetchFileStatus, subscribeListenerEvents, fetchCleanFile, deleteFilebyid, uploadFile } = require('./Connection.js');
+const { registerTerminal,subscribeListenerEvents,  uploadFile } = require('./Connection.js');
 const readline = require('readline');
 const commandParser = require('./CommandParser.js');
 const dotenv = require('dotenv');
@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const figlet = require('figlet');
 
-program.version('1.0.0');
+program.version('0.1.0');
 program.option('--listen', 'listens to the server.')
     .option('--command', 'Enter the admin repl')
     .option('--env <env>', 'Enter the environme option (dev/prod), default is prod. ');
@@ -18,7 +18,7 @@ program.parse(process.argv);
 const options = program.opts();
 
 const welcome = () => {
-    console.log('Bienvenido Admin al REPL de FilePod-Backend. v1.0.0 by R. Elias Ojeda');
+    console.log('Bienvenido Admin a FilePod-Backend-Cli. v0.1.0 by R. Elias Ojeda');
 }
 const repl = () => {
 
@@ -38,16 +38,6 @@ const repl = () => {
     });
 }
 const registerCommands = () => {
-
-    commandParser.registerCommand('.status', (command, value) => {
-        fetchFileStatus();
-    });
-    commandParser.registerCommand('.clean', (command, value) => {
-        fetchCleanFile();
-    });
-    commandParser.registerCommand('.delete', (command, value) => {
-        deleteFilebyid(value);
-    });
     commandParser.registerCommand('.upload', (command, value) => {
         if (!value) {
             console.log(`${command} necesita definir un path al archivo para subir. ej: serverfiles.upload=ejemplol.txt`);
@@ -69,8 +59,14 @@ const readfile = (filename) => {
             console.log(`No se pudo leer el archivo ${filename}`);
             return;
         }
-        uploadFile(filename, data);
+        const filesize = getFilesizeInBytes(filePath);
+        uploadFile(filename, data, filesize, 20);
     });
+}
+const getFilesizeInBytes = (filename)=> {
+    var stats = fs.statSync(filename);
+    var fileSizeInBytes = stats.size;
+    return fileSizeInBytes;
 }
 
 

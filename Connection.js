@@ -11,22 +11,10 @@ const registerTerminal = (type) => {
         console.log('Se ha perdido la conexion al servidor.');
         process.exit(0);
     });
-    socket.on('RegisterTerminalResponse', (response) => {
-        console.log(response);
-    });
     listenInvalidToken();
-    socket.emit('RegisterTerminalRequest', token, type);
-    socket.on('FileStatusResponse', (statusAsNumber) => {
-        console.log(`Server: Hay ${statusAsNumber} de archivos en memoria. `);
-    });
-    socket.on('CleanFileResponse', (response) => {
-        console.log(`Server: se han limpiado ${response} archivos en memoria.`);
-    });
-    socket.on('deletebyid', (response) => {
-        console.log(`Server: ${response}`);
-    });
-    socket.on('archivo-guardado', (response) => {
-        console.log(`link para descarga: ${url}/file/preview/${response}`);
+    socket.emit('ListeningTerminalRequest', token);
+    socket.on('file-received', (response) => {
+        console.log(response);
     });
 }
 
@@ -37,25 +25,13 @@ const listenInvalidToken = () => {
 }
 
 const subscribeListenerEvents = () => {
-    socket.on('BackendListener', ({ event, message, date }) => {
-        console.log(`${date} :: ${event} :: ${message}`);
+    socket.on('BackendListener', ({ optype, opmessage, datenow }) => {
+        console.log(`${new Date(datenow).toUTCString()} :: ${optype} :: ${opmessage}`);
     });
 }
 
-const fetchFileStatus = () => {
-    socket.emit('FileStatusRequest', token);
+const uploadFile = (filename, filedata, filesize, downloads) => {
+    socket.emit('upload-file', {downloads, filename, filedata, filesize});
 }
 
-const fetchCleanFile = () => {
-    socket.emit('CleanFilesRequest', token);
-}
-
-const deleteFilebyid = (id) => {
-    socket.emit('DeleteByIdRequest', id, token);
-}
-
-const uploadFile = (filename, filedata) => {
-    socket.emit('enviar-archivo', filename, filedata);
-}
-
-module.exports = { registerTerminal, fetchFileStatus, subscribeListenerEvents, fetchCleanFile, deleteFilebyid, uploadFile };
+module.exports = {registerTerminal, subscribeListenerEvents, uploadFile};

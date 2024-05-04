@@ -7,20 +7,13 @@ filepod-backend-cli es una herramienta de línea de comandos (CLI) que proporcio
 ## Características
 
 - Escucha los eventos emitidos por el backend de FilePod.
-- Permite a los administradores realizar diversas acciones a través de un entorno de línea de comandos interactivo (REPL), como verificar el estado del sistema, entre otras.
+- Permite a los administradores realizar diversas acciones a través de un entorno de línea de comandos interactivo (REPL).
 
 
 ### Comandos
 
-- **.status**: Muestra el estado actual del sistema, proporcionando información relevante como la cantidad de archivos almacenados en memoria.
-
-- **.clean**: Limpia de la memoria los archivos que han sido subidos.
-
 - **.upload=<filename>**: Permite al usuario cargar un archivo al sistema especificando el nombre del archivo que desea subir. Este comando inicia el proceso de carga del archivo al servidor.
 
-- **.delete=<id>**: Elimina un archivo específico del sistema utilizando su identificador único (ID). Al proporcionar el ID del archivo que se desea eliminar, el sistema procederá a eliminarlo de manera segura y permanente.
-
-- **.exit**: Cierra la sesión actual y sale del programa o la interfaz de línea de comandos, regresando al entorno anterior o cerrando la aplicación por completo, según corresponda.
 
 ## Contribuir
 

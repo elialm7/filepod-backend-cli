@@ -2,6 +2,7 @@ const io = require('socket.io-client');
 let token = null;
 let url = null;
 let socket = null;
+const chalk = require('chalk');
 
 const registerTerminal = (type) => {
     token = process.env.TOKEN;
@@ -26,7 +27,7 @@ const listenInvalidToken = () => {
 
 const subscribeListenerEvents = () => {
     socket.on('BackendListener', ({ optype, opmessage, datenow }) => {
-        console.log(`${new Date(datenow).toUTCString()} :: ${optype} :: ${opmessage}`);
+        console.log(`${chalk.blue(new Date(datenow).toUTCString())} :: ${chalk.green(optype)} :: ${chalk.yellow(opmessage)}`);
     });
 }
 

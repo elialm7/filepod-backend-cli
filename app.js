@@ -8,7 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const figlet = require('figlet');
 
-program.version('0.1.0');
+program.version('1.0.0');
 program.option('--listen', 'listens to the server.')
     .option('--command', 'Enter the admin repl')
     .option('--env <env>', 'Enter the environme option (dev/prod), default is prod. ');
@@ -18,7 +18,7 @@ program.parse(process.argv);
 const options = program.opts();
 
 const welcome = () => {
-    console.log('Bienvenido Admin a FilePod-Backend-Cli. v0.1.0 by R. Elias Ojeda');
+    console.log('Bienvenido Admin a FilePod-Backend-Cli. v1.0.0 by R. Elias Ojeda');
 }
 const repl = () => {
 

@@ -1,5 +1,5 @@
 
-
+# status: esta app ha cumplido su cometido y dejara de ser mantenido apartir de hoy (18/06/2024)
 # filepod-backend-cli
 
 filepod-backend-cli es una herramienta de línea de comandos (CLI) que proporciona a un administrador un terminal de línea de comandos para escuchar los eventos emitidos por el backend de FilePod (https://github.com/elialm7/filepod-backend-node). Esto permite al administrador monitorear lo que sucede en el backend desde cualquier lugar, simplemente conociendo el token de autorización.
